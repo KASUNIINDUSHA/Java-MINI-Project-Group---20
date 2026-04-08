@@ -1,4 +1,8 @@
-package com.example.java_lms_group_20.Model;
+package com.java_lms_group_20.Model;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class User {
 
@@ -11,8 +15,13 @@ public class User {
     private String contactNo;
     private String profilePicture;
 
+
+    private Set<Role> roles = new HashSet<>();
+
+
     public User() {
     }
+
 
     public User(int userID, String username, String password,
                 String firstName, String lastName,
@@ -25,6 +34,37 @@ public class User {
         this.email = email;
         this.contactNo = contactNo;
         this.profilePicture = profilePicture;
+    }
+
+    public User(int userID, String username, String password,
+                String firstName, String lastName,
+                String email, String contactNo) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.contactNo = contactNo;
+
+    }
+
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+
+    public boolean hasRole(Role role) {
+        return roles.contains(role);
     }
 
     public int getUserID() {

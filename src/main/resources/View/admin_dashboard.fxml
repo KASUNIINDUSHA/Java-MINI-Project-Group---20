@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #f8fafc;"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.java_lms_group_20.Controller.AdminDashboardController">
+
+    <left>
+        <VBox prefWidth="240.0" spacing="10" style="-fx-background-color: #0f172a;">
+            <padding>
+                <Insets top="30" right="15" bottom="30" left="15"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <StackPane style="-fx-background-color: #6366f1; -fx-background-radius: 8; -fx-padding: 8;">
+                    <Label text="LMS" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+                </StackPane>
+                <Label text="Admin Panel" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 18px;"/>
+            </HBox>
+
+            <Region prefHeight="40"/>
+
+            <Button maxWidth="Infinity" alignment="BASELINE_LEFT" text="Dashboard"
+                    style="-fx-background-color: #1e293b; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand;"/>
+
+            <Button fx:id="btnRegisterUndergrad" onAction="#showUndergradRegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Undergraduate Register"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
+            <Button fx:id="btnRegisterLecturer" onAction="#showLecturerRegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Undergraduate Register"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
+            <Button fx:id="btnRegisterTO" onAction="#showTORegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Undergraduate Register"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
+
+            <Button maxWidth="Infinity" alignment="BASELINE_LEFT" text="Add Course"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Button maxWidth="Infinity" text="Sign Out"
+                    style="-fx-background-color: #ef444422; -fx-text-fill: #ef4444; -fx-font-weight: bold; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand;"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="25">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT">
+                <VBox>
+                    <Label fx:id="welcomeLabel" text="Welcome, Admin"
+                           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                    <Label text="LMS Administration Portal"
+                           style="-fx-font-size: 14px; -fx-text-fill: #64748b;"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Circle radius="20" fill="#e2e8f0"/>
+            </HBox>
+
+            <StackPane fx:id="contentArea" VBox.vgrow="ALWAYS"
+                       style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                <Label text="Welcome! Click a menu item to get started." style="-fx-text-fill: #94a3b8;"/>
+            </StackPane>
+        </VBox>
+    </center>
+</BorderPane>

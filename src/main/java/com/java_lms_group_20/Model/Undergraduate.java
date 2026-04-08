@@ -1,4 +1,4 @@
-package com.example.java_lms_group_20.Model;
+package com.java_lms_group_20.Model;
 
 public class Undergraduate extends User {
 

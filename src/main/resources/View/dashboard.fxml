@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.java_lms_group_20.Controller.DashboardController"
+            fx:controller="com.java_lms_group_20.Controller.DashboardController"
             prefWidth="900.0" prefHeight="600.0">
 
     <top>

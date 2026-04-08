@@ -4,7 +4,7 @@ module com.example.java_lms_group_20 {
     requires com.jfoenix;
     requires java.sql;
 
-    opens com.example.java_lms_group_20 to javafx.fxml;
-    opens com.example.java_lms_group_20.Controller to javafx.fxml;
-    exports com.example.java_lms_group_20;
+    opens com.java_lms_group_20 to javafx.fxml;
+    opens com.java_lms_group_20.Controller to javafx.fxml;
+    exports com.java_lms_group_20;
 }
