@@ -13,9 +13,13 @@
 
     <TableView fx:id="toTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="colName" text="Full Name" prefWidth="200" />
-            <TableColumn fx:id="colLab" text="Assigned Lab" prefWidth="200" />
-            <TableColumn fx:id="colShift" text="Working Shift" prefWidth="150" />
+            <TableColumn fx:id="colID" text="TO ID" prefWidth="100" />
+            <TableColumn fx:id="colName" text="Full Name" prefWidth="180" />
+            <TableColumn fx:id="colDept" text="Department" prefWidth="150" />
+            <TableColumn fx:id="colSkills" text="Technical Skills" prefWidth="250" />
         </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
     </TableView>
 </VBox>

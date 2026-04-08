@@ -2,7 +2,6 @@ package com.java_lms_group_20.Controller;
 
 import com.java_lms_group_20.Model.User;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,23 +9,52 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class AdminDashboardController {
 
-    @FXML
-    private Label welcomeLabel;
-    @FXML
-    private StackPane contentArea;
-    @FXML
-    private Button btnRegisterUndergrad;
-    @FXML
-    private Button btnRegisterLecturer;
-    @FXML
-    private Button btnRegisterTO;
-    @FXML
-    private Button btnRegisterCourse;
+    @FXML private Label welcomeLabel;
+    @FXML private StackPane contentArea;
 
+    // Sidebar Buttons
+    @FXML private Button btnShowDashboard; // Added this missing injection
+    @FXML private Button btnRegisterUndergrad;
+    @FXML private Button btnRegisterLecturer;
+    @FXML private Button btnRegisterTO;
+    @FXML private Button btnRegisterCourse;
+
+    private List<Button> sidebarButtons;
     private User currentUser;
+
+    // Constants for styles to keep code clean
+    private final String ACTIVE_STYLE = "-fx-background-color: #6366f1; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;";
+    private final String IDLE_STYLE = "-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12;";
+    private final String HOVER_STYLE = "-fx-background-color: #1e293b; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;";
+
+    @FXML
+    public void initialize() {
+        // Group buttons for easier management
+        sidebarButtons = Arrays.asList(btnShowDashboard, btnRegisterUndergrad,
+                btnRegisterLecturer, btnRegisterTO, btnRegisterCourse);
+
+        // Apply Hover effects to all buttons
+        for (Button btn : sidebarButtons) {
+            btn.setOnMouseEntered(e -> {
+                if (!btn.getStyle().equals(ACTIVE_STYLE)) {
+                    btn.setStyle(HOVER_STYLE);
+                }
+            });
+            btn.setOnMouseExited(e -> {
+                if (!btn.getStyle().equals(ACTIVE_STYLE)) {
+                    btn.setStyle(IDLE_STYLE);
+                }
+            });
+        }
+
+        // Load initial dashboard view
+        showDashboard();
+    }
 
     public void initUser(User user) {
         this.currentUser = user;
@@ -37,62 +65,45 @@ public class AdminDashboardController {
         });
     }
 
+    @FXML
     public void showDashboard() {
-        resetButtonStyles();
-
-        btnRegisterUndergrad.setStyle("-fx-background-color: #6366f1; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;");
-
-
+        setActiveButton(btnShowDashboard);
         switchView("/View/admin_dashboard_home.fxml");
     }
 
     @FXML
     private void showUndergradRegister() {
-
-        resetButtonStyles();
-
-        btnRegisterUndergrad.setStyle("-fx-background-color: #6366f1; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;");
-
-
+        setActiveButton(btnRegisterUndergrad);
         switchView("/View/undergraduate_registration.fxml");
     }
 
     @FXML
     public void showLecturerRegister() {
-        resetButtonStyles();
-
-        btnRegisterLecturer.setStyle("-fx-background-color: #6366f1; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;");
-
+        setActiveButton(btnRegisterLecturer);
         switchView("/View/lecturer_registration.fxml");
     }
 
-
     @FXML
     public void showTORegister() {
-        resetButtonStyles();
-
-        btnRegisterTO.setStyle("-fx-background-color: #6366f1; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;");
-
+        setActiveButton(btnRegisterTO);
         switchView("/View/technical_officer_registration.fxml");
-
     }
 
     @FXML
     public void showCourseRegister() {
-        resetButtonStyles();
-
-        btnRegisterCourse.setStyle("-fx-background-color: #6366f1; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;");
-
+        setActiveButton(btnRegisterCourse);
         switchView("/View/course_registration.fxml");
     }
 
-
-
-    private void resetButtonStyles() {
-        btnRegisterUndergrad.setStyle("-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12;");
-        btnRegisterLecturer.setStyle("-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12;");
-        btnRegisterTO.setStyle("-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12;");
-        btnRegisterCourse.setStyle("-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12;");
+    // Helper method to handle UI state
+    private void setActiveButton(Button activeBtn) {
+        for (Button btn : sidebarButtons) {
+            if (btn == activeBtn) {
+                btn.setStyle(ACTIVE_STYLE);
+            } else {
+                btn.setStyle(IDLE_STYLE);
+            }
+        }
     }
 
     private void switchView(String fxmlPath) {
@@ -101,26 +112,8 @@ public class AdminDashboardController {
             Parent view = loader.load();
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
+            System.err.println("Could not load FXML: " + fxmlPath);
             e.printStackTrace();
         }
     }
-
-    @FXML
-    public void initialize() {
-        // Add Hover Effect via Code (Simple way without external CSS)
-        btnRegisterUndergrad.setOnMouseEntered(e -> {
-            if (!btnRegisterUndergrad.getStyle().contains("#6366f1")) { // Only hover if not active
-                btnRegisterUndergrad.setStyle("-fx-background-color: #1e293b; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;");
-            }
-        });
-
-        btnRegisterUndergrad.setOnMouseExited(e -> {
-            if (!btnRegisterUndergrad.getStyle().contains("#6366f1")) { // Only reset if not active
-                resetButtonStyles();
-            }
-        });
-    }
-
-
 }
-

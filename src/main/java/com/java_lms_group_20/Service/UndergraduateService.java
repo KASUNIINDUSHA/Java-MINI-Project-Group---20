@@ -1,25 +1,21 @@
-
 package com.java_lms_group_20.Service;
 
 import com.java_lms_group_20.Model.Undergraduate;
 import com.java_lms_group_20.Repository.UndergraduateRepository;
+import java.sql.SQLException;
 
 public class UndergraduateService {
     private final UndergraduateRepository repository = new UndergraduateRepository();
 
-    public void registerStudent(Undergraduate student) throws Exception {
+    public boolean registerStudent(Undergraduate student) throws SQLException {
+        return repository.save(student);
+    }
 
-        if (student.getUsername().length() < 4) {
-            throw new Exception("Username must be at least 4 characters.");
-        }
-        if (student.getStudentID() == null || student.getStudentID().isEmpty()) {
-            throw new Exception("Student ID is required.");
-        }
+    public boolean updateStudent(Undergraduate student) throws SQLException {
+        return repository.update(student);
+    }
 
-
-        boolean success = repository.save(student);
-        if (!success) {
-            throw new Exception("Database error: Could not save student.");
-        }
+    public boolean deleteStudent(String studentID) throws SQLException {
+        return repository.delete(studentID);
     }
 }

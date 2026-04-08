@@ -32,22 +32,27 @@ INSERT INTO role (roleID, roleName) VALUES (3, 'UNDERGRADUATE');
 INSERT INTO role (roleID, roleName) VALUES (4, 'TO');
 
 
+DROP TABLE IF EXISTS lecturer;
+
 CREATE TABLE lecturer (
                           userID INT PRIMARY KEY,
+                          lecturerID VARCHAR(20) UNIQUE NOT NULL,
                           department VARCHAR(100),
+                          qualifications VARCHAR(255),
                           specialization VARCHAR(100),
 
                           FOREIGN KEY (userID) REFERENCES user(userID) ON DELETE CASCADE
 );
 
 
+
+
 CREATE TABLE technical_officer (
                                    userID INT PRIMARY KEY,
-                                   lab VARCHAR(100),
-                                   shift VARCHAR(50),
-
-
-
+                                   techOfficerID VARCHAR(20) UNIQUE NOT NULL,
+                                   department VARCHAR(100),
+                                   technicalSkills VARCHAR(255),
+                                   assignedLab VARCHAR(100),
 
                                    FOREIGN KEY (userID) REFERENCES user(userID) ON DELETE CASCADE
 );

@@ -12,8 +12,13 @@
         <Insets top="30" right="30" bottom="30" left="30"/>
     </padding>
 
-    <Label text="Register Undergraduate Student"
-           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+    <HBox alignment="CENTER_LEFT">
+        <Label text="Manage Undergraduate Student"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button onAction="#clearFields" text="Clear Form"
+                style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-cursor: hand;"/>
+    </HBox>
 
     <GridPane hgap="20" vgap="15">
         <columnConstraints>
@@ -21,52 +26,59 @@
             <ColumnConstraints percentWidth="50"/>
         </columnConstraints>
 
-        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+            <Label text="Student ID (Format: TG/XXXX/XXXX)" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
+            <Label text="Use this ID to Register, Update, or Delete student records" style="-fx-font-size: 11px; -fx-text-fill: #94a3b8;"/>
+            <TextField fx:id="txtStudentID" promptText="e.g. TG/2023/0001"
+                       style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-color: #e2e8f0; -fx-border-radius: 5;"/>
+        </VBox>
+
+        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
             <Label text="First Name" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
             <TextField fx:id="txtFirstName" promptText="e.g. Nimal" style="-fx-padding: 8; -fx-background-radius: 5;"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <Label text="Last Name" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
             <TextField fx:id="txtLastName" promptText="e.g. Fernando" style="-fx-padding: 8; -fx-background-radius: 5;"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
             <Label text="Username" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
             <TextField fx:id="txtUsername" promptText="Unique login username" style="-fx-padding: 8; -fx-background-radius: 5;"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <Label text="Email Address" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
             <TextField fx:id="txtEmail" promptText="Nimal@university.com" style="-fx-padding: 8; -fx-background-radius: 5;"/>
         </VBox>
 
-        <Separator GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2" style="-fx-padding: 10 0;"/>
-
         <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="3">
-            <Label text="Student ID" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
-            <TextField fx:id="txtStudentID" promptText="e.g. TG/2023/0001" style="-fx-padding: 8; -fx-background-radius: 5;"/>
-        </VBox>
-
-        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
             <Label text="Degree Program" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
             <TextField fx:id="txtDegree" promptText="e.g. BICT" style="-fx-padding: 8; -fx-background-radius: 5;"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="4">
+        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
             <Label text="Level" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
             <TextField fx:id="txtLevel" promptText="1 - 4" style="-fx-padding: 8; -fx-background-radius: 5;"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="4">
             <Label text="Initial GPA" style="-fx-font-weight: bold; -fx-text-fill: #475569;"/>
             <TextField fx:id="txtGPA" promptText="e.g. 3.5" style="-fx-padding: 8; -fx-background-radius: 5;"/>
         </VBox>
     </GridPane>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
+    <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
         <Label fx:id="statusLabel" text="" style="-fx-font-size: 13px;"/>
         <Region HBox.hgrow="ALWAYS"/>
+
+        <Button onAction="#handleDeleteUser" text="Delete"
+                style="-fx-background-color: #fee2e2; -fx-text-fill: #ef4444; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+
+        <Button onAction="#handleUpdateUser" text="Update Info"
+                style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+
         <Button onAction="#handleSaveUser" text="Register Student"
                 style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 25; -fx-background-radius: 5; -fx-cursor: hand;"/>
     </HBox>

@@ -11,8 +11,9 @@ public class AdminRepository {
     // 1. Fetch all Lecturers
     public List<Lecturer> getAllLecturers() {
         List<Lecturer> list = new ArrayList<>();
-        String query = "SELECT u.*, l.department, l.specialization FROM user u " +
-                "JOIN lecturer l ON u.userID = l.userID";
+        String query = "SELECT u.firstName, u.lastName, u.email, u.username, " +
+                "l.lecturerID, l.department, l.qualifications, l.specialization " +
+                "FROM user u JOIN lecturer l ON u.userID = l.userID";
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -21,7 +22,10 @@ public class AdminRepository {
                 l.setFirstName(rs.getString("firstName"));
                 l.setLastName(rs.getString("lastName"));
                 l.setEmail(rs.getString("email"));
+                l.setUsername(rs.getString("username"));
+                l.setLecturerID(rs.getString("lecturerID"));
                 l.setDepartment(rs.getString("department"));
+                l.setQualifications(rs.getString("qualifications"));
                 l.setSpecialization(rs.getString("specialization"));
                 list.add(l);
             }
@@ -32,8 +36,12 @@ public class AdminRepository {
     // 2. Fetch all Technical Officers
     public List<TechnicalOfficer> getAllTechnicalOfficers() {
         List<TechnicalOfficer> list = new ArrayList<>();
-        String query = "SELECT u.*, t.lab, t.shift FROM user u " +
-                "JOIN technical_officer t ON u.userID = t.userID";
+        // Use INNER JOIN to ensure we only get users who are actually TOs
+        String query = "SELECT u.firstName, u.lastName, u.email, u.username, " +
+                "t.techOfficerID, t.department, t.technicalSkills " +
+                "FROM user u " +
+                "INNER JOIN technical_officer t ON u.userID = t.userID";
+
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -41,27 +49,38 @@ public class AdminRepository {
                 TechnicalOfficer to = new TechnicalOfficer();
                 to.setFirstName(rs.getString("firstName"));
                 to.setLastName(rs.getString("lastName"));
-                to.setLab(rs.getString("lab"));
-                to.setShift(rs.getString("shift"));
+                to.setUsername(rs.getString("username"));
+                to.setEmail(rs.getString("email"));
+                to.setTechOfficerID(rs.getString("techOfficerID"));
+                to.setDepartment(rs.getString("department"));
+                to.setTechnicalSkills(rs.getString("technicalSkills"));
                 list.add(to);
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            System.err.println("Error fetching TOs: " + e.getMessage());
+            e.printStackTrace();
+        }
         return list;
     }
 
     // 3. Fetch all Undergraduates
     public List<Undergraduate> getAllUndergraduates() {
         List<Undergraduate> list = new ArrayList<>();
-        String query = "SELECT u.*, ug.studentID, ug.degreeProgram, ug.level, ug.gpa FROM user u " +
-                "JOIN undergraduate ug ON u.userID = ug.userID";
+        String query = "SELECT u.firstName, u.lastName, u.email, u.username, " +
+                "ug.studentID, ug.degreeProgram, ug.level, ug.gpa " +
+                "FROM user u JOIN undergraduate ug ON u.userID = ug.userID";
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Undergraduate ug = new Undergraduate();
                 ug.setFirstName(rs.getString("firstName"));
+                ug.setLastName(rs.getString("lastName"));
+                ug.setUsername(rs.getString("username"));
+                ug.setEmail(rs.getString("email"));
                 ug.setStudentID(rs.getString("studentID"));
                 ug.setDegreeProgram(rs.getString("degreeProgram"));
+                ug.setLevel(rs.getInt("level"));
                 ug.setGpa(rs.getDouble("gpa"));
                 list.add(ug);
             }

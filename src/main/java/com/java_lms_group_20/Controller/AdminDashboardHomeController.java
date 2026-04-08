@@ -2,82 +2,90 @@ package com.java_lms_group_20.Controller;
 
 import com.java_lms_group_20.Model.*;
 import com.java_lms_group_20.Service.AdminService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import java.util.List;
 
 public class AdminDashboardHomeController {
 
-    private final AdminService adminService = new AdminService();
+    @FXML private Label lblTotalStudents, lblTotalCourses, lblTotalFaculty;
 
+    // Technical Officer Table
+    @FXML private TableView<TechnicalOfficer> toTable;
+    @FXML private TableColumn<TechnicalOfficer, String> colTOID, colTOName, colTODept, colTOSkills;
+
+    // Student Table
     @FXML private TableView<Undergraduate> studentTable;
     @FXML private TableColumn<Undergraduate, String> colStuID, colStuName, colStuDegree;
 
+    // Lecturer Table
     @FXML private TableView<Lecturer> lecturerTable;
-    @FXML private TableColumn<Lecturer, String> colLecName, colLecDept, colLecSpec;
+    @FXML private TableColumn<Lecturer, String> colLecID, colLecName, colLecDept;
 
-    @FXML private TableView<TechnicalOfficer> toTable;
-    @FXML private TableColumn<TechnicalOfficer, String> colTOName, colTOLab, colTOShift;
-
+    // Course Table
     @FXML private TableView<Course> courseTable;
     @FXML private TableColumn<Course, String> colCourseCode, colCourseName;
     @FXML private TableColumn<Course, Integer> colCourseCredits;
 
-
+    private final AdminService adminService = new AdminService();
 
     @FXML
     public void initialize() {
-        // Only setup if the elements were successfully injected from FXML
-        if (studentTable != null) setupStudentTable();
-        if (lecturerTable != null) setupLecturerTable();
-        if (toTable != null) setupTOTable();
-        if (courseTable != null) setupCourseTable();
-
+        setupTables();
         loadAllData();
     }
 
-    private void setupStudentTable() {
+    private void setupTables() {
+        // TO Table Setup
+        colTOID.setCellValueFactory(new PropertyValueFactory<>("techOfficerID"));
+        colTODept.setCellValueFactory(new PropertyValueFactory<>("department"));
+        colTOSkills.setCellValueFactory(new PropertyValueFactory<>("technicalSkills"));
+        colTOName.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getLastName()));
+
+        // Student Table Setup
         colStuID.setCellValueFactory(new PropertyValueFactory<>("studentID"));
-        colStuName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         colStuDegree.setCellValueFactory(new PropertyValueFactory<>("degreeProgram"));
-    }
+        colStuName.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getLastName()));
 
-    private void setupLecturerTable() {
-        colLecName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        // Lecturer Table Setup
+        colLecID.setCellValueFactory(new PropertyValueFactory<>("lecturerID"));
         colLecDept.setCellValueFactory(new PropertyValueFactory<>("department"));
-        // This was the cause of the previous error - now matched in FXML
-        colLecSpec.setCellValueFactory(new PropertyValueFactory<>("specialization"));
-    }
+        colLecName.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getLastName()));
 
-    private void setupTOTable() {
-        colTOName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        colTOLab.setCellValueFactory(new PropertyValueFactory<>("lab"));
-        colTOShift.setCellValueFactory(new PropertyValueFactory<>("shift"));
-    }
-
-    private void setupCourseTable() {
+        // Course Table Setup
         colCourseCode.setCellValueFactory(new PropertyValueFactory<>("courseCode"));
         colCourseName.setCellValueFactory(new PropertyValueFactory<>("courseName"));
         colCourseCredits.setCellValueFactory(new PropertyValueFactory<>("credits"));
     }
 
-    @FXML private Label lblTotalStudents, lblTotalCourses, lblTotalFaculty;
-
     private void loadAllData() {
-        var studentList = adminService.getStudentList();
-        var lecturerList = adminService.getLecturerList();
-        var courseList = adminService.getCourseList();
+        // Load TOs
+        List<TechnicalOfficer> tos = adminService.getTOList();
+        toTable.setItems(FXCollections.observableArrayList(tos));
 
-        studentTable.setItems(FXCollections.observableArrayList(studentList));
-        lecturerTable.setItems(FXCollections.observableArrayList(lecturerList));
-        courseTable.setItems(FXCollections.observableArrayList(courseList));
+        // Load Students
+        List<Undergraduate> students = adminService.getStudentList();
+        studentTable.setItems(FXCollections.observableArrayList(students));
 
-        // Update the modern status cards
-        lblTotalStudents.setText(String.valueOf(studentList.size()));
-        lblTotalCourses.setText(String.valueOf(courseList.size()));
-        lblTotalFaculty.setText(String.valueOf(lecturerList.size()));
+        // Load Lecturers
+        List<Lecturer> lecturers = adminService.getLecturerList();
+        lecturerTable.setItems(FXCollections.observableArrayList(lecturers));
+
+        // Load Courses
+        List<Course> courses = adminService.getCourseList();
+        courseTable.setItems(FXCollections.observableArrayList(courses));
+
+        // Update Stat Labels
+        lblTotalStudents.setText(String.valueOf(students.size()));
+        lblTotalCourses.setText(String.valueOf(courses.size()));
+        lblTotalFaculty.setText(String.valueOf(lecturers.size() + tos.size()));
+
+        System.out.println("DEBUG: Loaded " + tos.size() + " Technical Officers into Home Dashboard.");
     }
 }

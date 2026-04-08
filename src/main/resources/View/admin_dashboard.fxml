@@ -24,21 +24,20 @@
 
             <Region prefHeight="40"/>
 
-            <Button fx:id="btnShowDashboard" onAction="#showDashboard" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Dashboard"
+            <Button fx:id="btnShowDashboard" onAction="#showDashboard" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Dashboard Overview"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
-            <Button fx:id="btnRegisterUndergrad" onAction="#showUndergradRegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Student Register"
+            <Button fx:id="btnRegisterUndergrad" onAction="#showUndergradRegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Manage Students"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
-            <Button fx:id="btnRegisterLecturer" onAction="#showLecturerRegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Lecturer Register"
+            <Button fx:id="btnRegisterLecturer" onAction="#showLecturerRegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Manage Lecturers"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
-            <Button fx:id="btnRegisterTO" onAction="#showTORegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Technical Officer Register"
+            <Button fx:id="btnRegisterTO" onAction="#showTORegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Manage Tech Officers"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
-            <Button fx:id="btnRegisterCourse" onAction="#showCourseRegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Add Course"
+            <Button fx:id="btnRegisterCourse" onAction="#showCourseRegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Course Management"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
-
 
 
             <Region VBox.vgrow="ALWAYS"/>
