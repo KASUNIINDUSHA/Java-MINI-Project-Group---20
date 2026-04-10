@@ -4,40 +4,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 15;"
-      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.java_lms_group_20.Controller.CourseRegistrationController">
+<VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 15;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.java_lms_group_20.Controller.CourseRegistrationController">
+    <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
 
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
-
-    <Label text="Register Course"
-           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <Label text="Course Management" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
 
     <GridPane hgap="20" vgap="15">
-
         <VBox spacing="5" GridPane.rowIndex="0">
-            <Label text="Course Code"/>
-            <TextField fx:id="txtCourseCode"/>
+            <Label text="Course Code (Primary Key)"/>
+            <TextField fx:id="txtCourseCode" promptText="e.g. ICT1202"/>
         </VBox>
-
         <VBox spacing="5" GridPane.rowIndex="1">
             <Label text="Course Name"/>
-            <TextField fx:id="txtCourseName"/>
+            <TextField fx:id="txtCourseName" promptText="e.g. Database Systems"/>
         </VBox>
-
         <VBox spacing="5" GridPane.rowIndex="2">
             <Label text="Credits"/>
-            <TextField fx:id="txtCredits"/>
+            <TextField fx:id="txtCredits" promptText="e.g. 3"/>
         </VBox>
-
     </GridPane>
 
-    <HBox alignment="CENTER_RIGHT">
-        <Label fx:id="statusLabel"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Register Course" onAction="#handleSaveCourse"/>
-    </HBox>
+    <Separator/>
 
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Label fx:id="statusLabel" wrapText="true" maxWidth="250"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Save" onAction="#handleSaveCourse" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        <Button text="Update" onAction="#handleUpdateCourse" style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        <Button text="Delete" onAction="#handleDeleteCourse" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+    </HBox>
 </VBox>

@@ -1,76 +1,34 @@
-package com.example.model;
+package com.java_lms_group_20.Model;
 
 public class Marks {
-
-    private int markId;
+    private String undergraduateId;
     private String courseCode;
-    private int caMarks;
-    private int examMarks;
+    private double caMarks;
+    private double midExam;
+    private double endExam;
     private double finalMarks;
     private String grade;
 
     public Marks() {}
 
-    public Marks(int markId, String courseCode, int caMarks, int examMarks) {
-        this.markId = markId;
-        this.courseCode = courseCode;
-        this.caMarks = caMarks;
-        this.examMarks = examMarks;
-        calculateFinalMarks();
-        calculateGrade();
-    }
+    public String getUndergraduateId() { return undergraduateId; }
+    public void setUndergraduateId(String undergraduateId) { this.undergraduateId = undergraduateId; }
 
-    public void calculateFinalMarks() {
-        this.finalMarks = (caMarks * 0.4) + (examMarks * 0.6);
-    }
+    public String getCourseCode() { return courseCode; }
+    public void setCourseCode(String courseCode) { this.courseCode = courseCode; }
 
-    public void calculateGrade() {
-        if (finalMarks >= 75) grade = "A";
-        else if (finalMarks >= 65) grade = "B";
-        else if (finalMarks >= 55) grade = "C";
-        else if (finalMarks >= 45) grade = "S";
-        else grade = "F";
-    }
+    public double getCaMarks() { return caMarks; }
+    public void setCaMarks(double caMarks) { this.caMarks = caMarks; }
 
-    // Getters & Setters
+    public double getMidExam() { return midExam; }
+    public void setMidExam(double midExam) { this.midExam = midExam; }
 
-    public int getMarkId() {
-        return markId;
-    }
+    public double getEndExam() { return endExam; }
+    public void setEndExam(double endExam) { this.endExam = endExam; }
 
-    public void setMarkId(int markId) {
-        this.markId = markId;
-    }
+    public double getFinalMarks() { return finalMarks; }
+    public void setFinalMarks(double finalMarks) { this.finalMarks = finalMarks; }
 
-    public String getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    }
-
-    public int getCaMarks() {
-        return caMarks;
-    }
-
-    public void setCaMarks(int caMarks) {
-        this.caMarks = caMarks;
-    }
-
-    public int getExamMarks() {
-        return examMarks;
-    }
-
-    public void setExamMarks(int examMarks) {
-        this.examMarks = examMarks;
-    }
-
-    public double getFinalMarks() {
-        return finalMarks;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
+    public String getGrade() { return grade; }
+    public void setGrade(String grade) { this.grade = grade; }
 }

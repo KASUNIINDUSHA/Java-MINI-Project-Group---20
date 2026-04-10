@@ -39,6 +39,14 @@
             <Button fx:id="btnRegisterCourse" onAction="#showCourseRegister" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Course Management"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
+            <Button fx:id="btnManageMedical" onAction="#showMedicalManagement" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Medical Requests"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
+            <Button fx:id="btnManageAttendance" onAction="#showAttendanceManagement" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Attendance Records"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
+            <Button fx:id="btnManageMarks" onAction="#showMarksManagement" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Marks Management"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
             <Region VBox.vgrow="ALWAYS"/>
 

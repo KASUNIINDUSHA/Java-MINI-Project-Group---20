@@ -18,27 +18,36 @@ public class AdminDashboardController {
     @FXML private StackPane contentArea;
 
     // Sidebar Buttons
-    @FXML private Button btnShowDashboard; // Added this missing injection
+    @FXML private Button btnShowDashboard;
     @FXML private Button btnRegisterUndergrad;
     @FXML private Button btnRegisterLecturer;
     @FXML private Button btnRegisterTO;
     @FXML private Button btnRegisterCourse;
+    @FXML private Button btnManageMedical;
+    @FXML private Button btnManageAttendance;
+    @FXML private Button btnManageMarks; // Added this
 
     private List<Button> sidebarButtons;
     private User currentUser;
 
-    // Constants for styles to keep code clean
+    // Constants for styles
     private final String ACTIVE_STYLE = "-fx-background-color: #6366f1; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;";
     private final String IDLE_STYLE = "-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12;";
     private final String HOVER_STYLE = "-fx-background-color: #1e293b; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8;";
 
     @FXML
     public void initialize() {
-        // Group buttons for easier management
-        sidebarButtons = Arrays.asList(btnShowDashboard, btnRegisterUndergrad,
-                btnRegisterLecturer, btnRegisterTO, btnRegisterCourse);
+        sidebarButtons = Arrays.asList(
+                btnShowDashboard,
+                btnRegisterUndergrad,
+                btnRegisterLecturer,
+                btnRegisterTO,
+                btnRegisterCourse,
+                btnManageMedical,
+                btnManageAttendance,
+                btnManageMarks // Included in styling logic
+        );
 
-        // Apply Hover effects to all buttons
         for (Button btn : sidebarButtons) {
             btn.setOnMouseEntered(e -> {
                 if (!btn.getStyle().equals(ACTIVE_STYLE)) {
@@ -52,7 +61,6 @@ public class AdminDashboardController {
             });
         }
 
-        // Load initial dashboard view
         showDashboard();
     }
 
@@ -95,7 +103,24 @@ public class AdminDashboardController {
         switchView("/View/course_registration.fxml");
     }
 
-    // Helper method to handle UI state
+    @FXML
+    public void showMedicalManagement() {
+        setActiveButton(btnManageMedical);
+        switchView("/View/admin_medical_view.fxml");
+    }
+
+    @FXML
+    public void showAttendanceManagement() {
+        setActiveButton(btnManageAttendance);
+        switchView("/View/attendance_view.fxml");
+    }
+
+    @FXML
+    public void showMarksManagement() {
+        setActiveButton(btnManageMarks);
+        switchView("/View/marks_view.fxml");
+    }
+
     private void setActiveButton(Button activeBtn) {
         for (Button btn : sidebarButtons) {
             if (btn == activeBtn) {

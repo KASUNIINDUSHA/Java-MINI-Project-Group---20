@@ -14,32 +14,50 @@ public class CourseRegistrationController {
 
     @FXML
     private void handleSaveCourse() {
+        processAction("SAVE");
+    }
+
+    @FXML
+    private void handleUpdateCourse() {
+        processAction("UPDATE");
+    }
+
+    @FXML
+    private void handleDeleteCourse() {
+        try {
+            service.deleteCourse(txtCourseCode.getText().trim());
+            showStatus("Course Deleted!", "#10b981");
+            clearFields();
+        } catch (Exception e) {
+            showStatus(e.getMessage(), "#ef4444");
+        }
+    }
+
+    private void processAction(String type) {
         try {
             Course course = new Course();
-
             course.setCourseCode(txtCourseCode.getText().trim());
             course.setCourseName(txtCourseName.getText().trim());
 
-            if (txtCredits.getText().isEmpty()) {
-                throw new Exception("Credits cannot be empty.");
-            }
-
+            if (txtCredits.getText().isEmpty()) throw new Exception("Credits required.");
             course.setCredits(Integer.parseInt(txtCredits.getText().trim()));
 
-            service.registerCourse(course);
-
-            statusLabel.setText("Course Registered Successfully!");
-            statusLabel.setStyle("-fx-text-fill: #10b981;");
-
+            if (type.equals("SAVE")) {
+                service.registerCourse(course);
+                showStatus("Course Saved!", "#10b981");
+            } else {
+                service.updateCourse(course);
+                showStatus("Course Updated!", "#6366f1");
+            }
             clearFields();
-
-        } catch (NumberFormatException e) {
-            statusLabel.setText("Credits must be a number.");
-            statusLabel.setStyle("-fx-text-fill: #ef4444;");
         } catch (Exception e) {
-            statusLabel.setText(e.getMessage());
-            statusLabel.setStyle("-fx-text-fill: #ef4444;");
+            showStatus(e.getMessage(), "#ef4444");
         }
+    }
+
+    private void showStatus(String msg, String color) {
+        statusLabel.setText(msg);
+        statusLabel.setStyle("-fx-text-fill: " + color + ";");
     }
 
     private void clearFields() {

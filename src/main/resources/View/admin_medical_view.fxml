@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 15;"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.java_lms_group_20.Controller.AdminMedicalController">
+
+    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+
+    <Label text="Medical Submission Management" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="txtSearchID" promptText="Search Student ID (e.g. TG/2023/1753)" prefWidth="300"
+                   style="-fx-padding: 8; -fx-background-radius: 5; -fx-border-color: #e2e8f0; -fx-border-radius: 5;"/>
+
+        <Button text="Search" onAction="#handleSearch"
+                style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+    </HBox>
+
+    <TableView fx:id="medicalTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 8;">
+        <columns>
+            <TableColumn fx:id="colStuID" text="Student ID" prefWidth="150"/>
+            <TableColumn fx:id="colFrom" text="Valid From" prefWidth="120"/>
+            <TableColumn fx:id="colTo" text="Valid To" prefWidth="120"/>
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+            <TableColumn fx:id="colDesc" text="Description" prefWidth="300"/>
+        </columns>
+        <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+    </TableView>
+
+    <HBox spacing="15" alignment="CENTER_RIGHT">
+        <Label fx:id="lblStatus" style="-fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="Approve" onAction="#handleApprove"
+                style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 25; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        <Button text="Deny" onAction="#handleDeny"
+                style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 25; -fx-background-radius: 5; -fx-cursor: hand;"/>
+    </HBox>
+</VBox>
