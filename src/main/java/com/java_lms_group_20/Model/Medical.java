@@ -1,28 +1,62 @@
-package com.java_lms_group_20.Model;
+package com.example.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Medical {
-    private String undergraduateId;
-    private String description;
-    private Date validFrom;
-    private Date validTo;
-    private String status;
+
+    private int medicalId;
+    private String studentId;
+    private Date date;
+    private String reason;
+    private String status; // Approved / Pending / Rejected
 
     public Medical() {}
 
-    public String getUndergraduateId() { return undergraduateId; }
-    public void setUndergraduateId(String undergraduateId) { this.undergraduateId = undergraduateId; }
+    public Medical(int medicalId, String studentId, Date date, String reason, String status) {
+        this.medicalId = medicalId;
+        this.studentId = studentId;
+        this.date = date;
+        this.reason = reason;
+        this.status = status;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public int getMedicalId() {
+        return medicalId;
+    }
 
-    public Date getValidFrom() { return validFrom; }
-    public void setValidFrom(Date validFrom) { this.validFrom = validFrom; }
+    public void setMedicalId(int medicalId) {
+        this.medicalId = medicalId;
+    }
 
-    public Date getValidTo() { return validTo; }
-    public void setValidTo(Date validTo) { this.validTo = validTo; }
+    public String getStudentId() {
+        return studentId;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
