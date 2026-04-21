@@ -14,6 +14,9 @@
             <Label text="STUDENT PORTAL" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 18px;"/>
             <Region prefHeight="40"/>
 
+            <Button fx:id="btnProfile" text="My Profile" onAction="#showProfile" maxWidth="Infinity" alignment="BASELINE_LEFT"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
             <Button fx:id="btnHome" text="Dashboard" onAction="#showHome" maxWidth="Infinity" alignment="BASELINE_LEFT"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
@@ -24,6 +27,10 @@
                     alignment="BASELINE_LEFT"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
             <Button fx:id="btnAttendance" text="Attendance" onAction="#showAttendance" maxWidth="Infinity" alignment="BASELINE_LEFT"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+            <Button fx:id="btnNotices" text="Notices" onAction="#showNotices" maxWidth="Infinity" alignment="BASELINE_LEFT"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+            <Button fx:id="btnTimetable" text="Timetable" onAction="#showTimetable" maxWidth="Infinity" alignment="BASELINE_LEFT"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
             <Region VBox.vgrow="ALWAYS"/>

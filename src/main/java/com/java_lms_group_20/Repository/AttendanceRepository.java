@@ -42,4 +42,17 @@ public class AttendanceRepository {
             return stmt.executeUpdate() > 0;
         }
     }
+
+    public boolean save(Attendance attendance) throws SQLException {
+        String sql = "INSERT INTO attendance (undergraduateId, courseCode, sessionType, sessionDate, status) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, attendance.getUndergraduateId());
+            stmt.setString(2, attendance.getCourseCode());
+            stmt.setString(3, attendance.getSessionType());
+            stmt.setDate(4, attendance.getSessionDate());
+            stmt.setString(5, attendance.getStatus());
+            return stmt.executeUpdate() > 0;
+        }
+    }
 }

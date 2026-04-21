@@ -3,6 +3,7 @@ package com.java_lms_group_20.Repository;
 import com.java_lms_group_20.Model.Lecturer;
 import com.java_lms_group_20.Util.DBConnection;
 import java.sql.*;
+import java.util.Optional;
 
 public class LecturerRepository {
 
@@ -112,6 +113,61 @@ public class LecturerRepository {
                     }
                 }
                 return false;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
+    }
+
+    public Optional<Lecturer> findByUserID(int userID) throws SQLException {
+        String sql = "SELECT u.userID, u.firstName, u.lastName, u.email, u.contactNo, " +
+                "l.lecturerID, l.department, l.qualifications, l.specialization " +
+                "FROM user u JOIN lecturer l ON u.userID = l.userID WHERE u.userID = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Lecturer lecturer = new Lecturer();
+                lecturer.setUserID(rs.getInt("userID"));
+                lecturer.setFirstName(rs.getString("firstName"));
+                lecturer.setLastName(rs.getString("lastName"));
+                lecturer.setEmail(rs.getString("email"));
+                lecturer.setContactNo(rs.getString("contactNo"));
+                lecturer.setLecturerID(rs.getString("lecturerID"));
+                lecturer.setDepartment(rs.getString("department"));
+                lecturer.setQualifications(rs.getString("qualifications"));
+                lecturer.setSpecialization(rs.getString("specialization"));
+                return Optional.of(lecturer);
+            }
+            return Optional.empty();
+        }
+    }
+
+    public boolean updateOwnProfile(Lecturer lecturer) throws SQLException {
+        String userSql = "UPDATE user SET firstName=?, lastName=?, email=?, contactNo=? WHERE userID=?";
+        String lecSql = "UPDATE lecturer SET department=?, qualifications=?, specialization=? WHERE userID=?";
+        try (Connection conn = DBConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+                try (PreparedStatement uStmt = conn.prepareStatement(userSql)) {
+                    uStmt.setString(1, lecturer.getFirstName());
+                    uStmt.setString(2, lecturer.getLastName());
+                    uStmt.setString(3, lecturer.getEmail());
+                    uStmt.setString(4, lecturer.getContactNo());
+                    uStmt.setInt(5, lecturer.getUserID());
+                    uStmt.executeUpdate();
+                }
+                try (PreparedStatement lStmt = conn.prepareStatement(lecSql)) {
+                    lStmt.setString(1, lecturer.getDepartment());
+                    lStmt.setString(2, lecturer.getQualifications());
+                    lStmt.setString(3, lecturer.getSpecialization());
+                    lStmt.setInt(4, lecturer.getUserID());
+                    lStmt.executeUpdate();
+                }
+                conn.commit();
+                return true;
             } catch (SQLException e) {
                 conn.rollback();
                 throw e;

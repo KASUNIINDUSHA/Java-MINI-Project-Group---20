@@ -3,6 +3,7 @@ package com.java_lms_group_20.Controller;
 import com.java_lms_group_20.Controller.Admin.AdminDashboardController;
 import com.java_lms_group_20.Controller.Student.StudentDashboardController;
 import com.java_lms_group_20.Controller.Lecturer.LecturerDashboardController; // Added Import
+import com.java_lms_group_20.Controller.TO.TODashboardController;
 import com.java_lms_group_20.Model.Role;
 import com.java_lms_group_20.Model.User;
 import com.java_lms_group_20.Service.LoginService;
@@ -45,6 +46,8 @@ public class LoginController {
                 navigateTo("/View/Student/student_dashboard.fxml", "Student Portal", user);
             } else if (user.getRoles().contains(Role.LECTURER)) { // Role already handled here
                 navigateTo("/View/Lecturer/lecturer_dashboard.fxml", "Lecturer Portal", user);
+            } else if (user.getRoles().contains(Role.TO)) {
+                navigateTo("/View/TO/to_dashboard.fxml", "Technical Officer Portal", user);
             } else {
                 messageLabel.setText("Access Denied: No valid role assigned.");
             }
@@ -69,6 +72,8 @@ public class LoginController {
                 ((StudentDashboardController) controller).initUser(user);
             } else if (controller instanceof LecturerDashboardController) { // FIXED: Pass to Lecturer
                 ((LecturerDashboardController) controller).initUser(user);
+            } else if (controller instanceof TODashboardController) {
+                ((TODashboardController) controller).initUser(user);
             } else if (controller instanceof RoleSelectionController) {
                 ((RoleSelectionController) controller).initUser(user);
             }

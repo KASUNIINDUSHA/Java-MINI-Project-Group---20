@@ -19,4 +19,9 @@ public class MedicalService {
         if (studentId == null || fromDate == null) return false;
         return repository.updateStatus(studentId, fromDate, newStatus);
     }
+
+    public boolean addMedical(Medical medical) throws SQLException {
+        if (medical == null || medical.getUndergraduateId() == null) return false;
+        return repository.save(medical);
+    }
 }

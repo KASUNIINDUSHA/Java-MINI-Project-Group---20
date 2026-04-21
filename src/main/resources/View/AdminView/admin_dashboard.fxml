@@ -48,6 +48,12 @@
             <Button fx:id="btnManageMarks" onAction="#showMarksManagement" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Marks Management"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
+            <Button fx:id="btnManageNotices" onAction="#showNoticeManagement" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Notices"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
+            <Button fx:id="btnManageTimetable" onAction="#showTimetableManagement" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Timetables"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
             <Region VBox.vgrow="ALWAYS"/>
 
             <Button maxWidth="Infinity" text="Sign Out" onAction="#handleSignOut"

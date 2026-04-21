@@ -24,16 +24,24 @@
 
             <Region prefHeight="40"/>
 
-            <Button fx:id="btnHome" onAction="#showHome" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Dashboard Home"
+            <Button fx:id="btnProfile" onAction="#showProfile" maxWidth="Infinity" alignment="BASELINE_LEFT" text="My Profile"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
-            <Button fx:id="btnAttendance" onAction="#showAttendance" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Mark Attendance"
+            <Button fx:id="btnHome" onAction="#showHome" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Undergraduate Details"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
-            <Button fx:id="btnMarks" onAction="#showMarks" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Manage Marks"
+            <Button fx:id="btnMaterials" onAction="#showMaterials" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Course Materials"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
-            <Button fx:id="btnMedical" onAction="#showMedical" maxWidth="Infinity" alignment="BASELINE_LEFT" text="View Medicals"
+            <Button fx:id="btnAttendance" onAction="#showAttendance" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Eligibility"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
+            <Button fx:id="btnMarks" onAction="#showMarks" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Marks, Grades and GPA"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+
+            <Button fx:id="btnMedical" onAction="#showMedical" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Attendance + Medical"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
+            <Button fx:id="btnNotices" onAction="#showNotices" maxWidth="Infinity" alignment="BASELINE_LEFT" text="Notices"
                     style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-padding: 12; -fx-cursor: hand;"/>
 
             <Region VBox.vgrow="ALWAYS"/>
@@ -64,7 +72,7 @@
 
             <StackPane fx:id="contentArea" VBox.vgrow="ALWAYS"
                        style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
-                <Label text="Select an option from the menu to manage courses or students." style="-fx-text-fill: #94a3b8;"/>
+                <Label text="Select an option from the menu to view undergraduate records." style="-fx-text-fill: #94a3b8;"/>
             </StackPane>
         </VBox>
     </center>

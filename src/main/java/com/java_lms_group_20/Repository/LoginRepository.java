@@ -11,20 +11,22 @@ public class LoginRepository {
 
     public Optional<User> findByUsername(String identifier) {
         // Added JOIN for lecturer table (l) and selected l.lecturerID
-        String query = "SELECT u.*, r.roleName, ug.studentID, l.lecturerID " +
+        String query = "SELECT u.*, r.roleName, ug.studentID, l.lecturerID, t.techOfficerID " +
                 "FROM user u " +
                 "LEFT JOIN user_roles ur ON u.userID = ur.userID " +
                 "LEFT JOIN role r ON ur.roleID = r.roleID " +
                 "LEFT JOIN undergraduate ug ON u.userID = ug.userID " +
-                "LEFT JOIN lecturer l ON u.userID = l.userID " + // Added this JOIN
-                "WHERE u.username = ? OR ug.studentID = ? OR l.lecturerID = ?"; // Added 3rd check
+                "LEFT JOIN lecturer l ON u.userID = l.userID " +
+                "LEFT JOIN technical_officer t ON u.userID = t.userID " +
+                "WHERE u.username = ? OR ug.studentID = ? OR l.lecturerID = ? OR t.techOfficerID = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, identifier);
             pstmt.setString(2, identifier);
-            pstmt.setString(3, identifier); // Check against Lecturer ID (LC1023)
+            pstmt.setString(3, identifier);
+            pstmt.setString(4, identifier);
 
             ResultSet rs = pstmt.executeQuery();
 

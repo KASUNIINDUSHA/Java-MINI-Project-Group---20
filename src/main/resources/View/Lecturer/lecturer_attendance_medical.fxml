@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="16" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.java_lms_group_20.Controller.Lecturer.LecturerAttendanceMedicalController"
+      style="-fx-background-color: white; -fx-background-radius: 15;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Undergraduate Attendance and Medical Records" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+
+    <HBox spacing="10">
+        <TextField fx:id="txtSearchStudentId" promptText="Search by student ID" prefWidth="260"/>
+        <Button text="Search" onAction="#handleSearch" style="-fx-background-color: #0ea5e9; -fx-text-fill: white;"/>
+        <Label fx:id="lblStatus"/>
+    </HBox>
+
+    <Label text="Attendance Records" style="-fx-font-size: 15px; -fx-font-weight: bold;"/>
+    <TableView fx:id="attendanceTable" prefHeight="230">
+        <columns>
+            <TableColumn fx:id="colAttStudentId" text="Student ID"/>
+            <TableColumn fx:id="colAttCourseCode" text="Course"/>
+            <TableColumn fx:id="colAttSessionType" text="Session Type"/>
+            <TableColumn fx:id="colAttDate" text="Date"/>
+            <TableColumn fx:id="colAttStatus" text="Status"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+
+    <Label text="Medical Records" style="-fx-font-size: 15px; -fx-font-weight: bold;"/>
+    <TableView fx:id="medicalTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colMedStudentId" text="Student ID"/>
+            <TableColumn fx:id="colMedDescription" text="Description"/>
+            <TableColumn fx:id="colMedFrom" text="Valid From"/>
+            <TableColumn fx:id="colMedTo" text="Valid To"/>
+            <TableColumn fx:id="colMedStatus" text="Status"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+</VBox>

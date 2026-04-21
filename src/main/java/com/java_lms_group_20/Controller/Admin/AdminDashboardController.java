@@ -29,6 +29,8 @@ public class AdminDashboardController {
     @FXML private Button btnManageMedical;
     @FXML private Button btnManageAttendance;
     @FXML private Button btnManageMarks; // Added this
+    @FXML private Button btnManageNotices;
+    @FXML private Button btnManageTimetable;
 
     private List<Button> sidebarButtons;
     private User currentUser;
@@ -48,7 +50,9 @@ public class AdminDashboardController {
                 btnRegisterCourse,
                 btnManageMedical,
                 btnManageAttendance,
-                btnManageMarks // Included in styling logic
+                btnManageMarks,
+                btnManageNotices,
+                btnManageTimetable
         );
 
         for (Button btn : sidebarButtons) {
@@ -122,6 +126,18 @@ public class AdminDashboardController {
     public void showMarksManagement() {
         setActiveButton(btnManageMarks);
         switchView("/View/AdminView/marks_view.fxml");
+    }
+
+    @FXML
+    public void showNoticeManagement() {
+        setActiveButton(btnManageNotices);
+        switchView("/View/AdminView/admin_notice_view.fxml");
+    }
+
+    @FXML
+    public void showTimetableManagement() {
+        setActiveButton(btnManageTimetable);
+        switchView("/View/AdminView/admin_timetable_view.fxml");
     }
 
     @FXML

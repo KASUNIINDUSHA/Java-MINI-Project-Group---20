@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.java_lms_group_20.Controller.Student.StudentTimetableController">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+    <Label text="My Timetable" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <TableView fx:id="timetableTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colDay" text="Day"/>
+            <TableColumn fx:id="colStart" text="Start"/>
+            <TableColumn fx:id="colEnd" text="End"/>
+            <TableColumn fx:id="colCourse" text="Course"/>
+            <TableColumn fx:id="colVenue" text="Venue"/>
+        </columns>
+        <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+    </TableView>
+    <Label fx:id="lblStatus"/>
+</VBox>

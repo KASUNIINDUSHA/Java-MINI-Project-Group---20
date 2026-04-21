@@ -5,6 +5,9 @@ DROP TABLE IF EXISTS attendance_summary;
 DROP TABLE IF EXISTS marks;
 DROP TABLE IF EXISTS attendance;
 DROP TABLE IF EXISTS medical;
+DROP TABLE IF EXISTS course_material;
+DROP TABLE IF EXISTS timetable;
+DROP TABLE IF EXISTS notice;
 DROP TABLE IF EXISTS undergraduate;
 DROP TABLE IF EXISTS technical_officer;
 DROP TABLE IF EXISTS lecturer;
@@ -141,7 +144,60 @@ INSERT INTO course (courseCode, courseName, credits) VALUES
 ('ICT1133', 'Communication Skills', 2);
 
 -- =========================
--- 10. MEDICAL
+-- 10. NOTICES
+-- =========================
+CREATE TABLE notice (
+    noticeID INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    message TEXT NOT NULL,
+    postedBy VARCHAR(100),
+    postedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO notice (title, message, postedBy) VALUES
+('Mid Exam Schedule', 'Mid exams begin on May 10. Check LMS for hall allocations.', 'Admin Office'),
+('System Maintenance', 'LMS will be unavailable on Sunday 1:00 AM - 3:00 AM.', 'System Admin'),
+('Medical Submission', 'Submit medical records within 3 working days.', 'Technical Division');
+
+-- =========================
+-- 11. TIMETABLE
+-- =========================
+CREATE TABLE timetable (
+    timetableID INT AUTO_INCREMENT PRIMARY KEY,
+    department VARCHAR(100) NOT NULL,
+    level INT NOT NULL,
+    dayOfWeek VARCHAR(20) NOT NULL,
+    startTime TIME NOT NULL,
+    endTime TIME NOT NULL,
+    courseCode VARCHAR(20) NOT NULL,
+    venue VARCHAR(100),
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO timetable (department, level, dayOfWeek, startTime, endTime, courseCode, venue) VALUES
+('ICT', 1, 'Monday', '08:30:00', '10:30:00', 'ICT1234', 'Lab 1'),
+('ICT', 1, 'Tuesday', '10:30:00', '12:30:00', 'ICT1122', 'Hall A'),
+('ICT', 1, 'Wednesday', '13:30:00', '15:30:00', 'ICT1133', 'Hall B');
+
+-- =========================
+-- 12.1 COURSE MATERIALS
+-- =========================
+CREATE TABLE course_material (
+    materialID INT AUTO_INCREMENT PRIMARY KEY,
+    courseCode VARCHAR(20) NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT,
+    resourceLink VARCHAR(255),
+    uploadedBy VARCHAR(100),
+    uploadedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO course_material (courseCode, title, description, resourceLink, uploadedBy) VALUES
+('ICT1234', 'Week 1 Slides', 'Introduction to Data Structures', 'https://lms.example/ict1234/week1', 'Kamal Perera'),
+('ICT1122', 'Tutorial 01', 'Limits and continuity worksheet', 'https://lms.example/ict1122/t01', 'Nimali Silva');
+
+-- =========================
+-- 12. MEDICAL
 -- =========================
 CREATE TABLE medical (
     medicalID INT AUTO_INCREMENT PRIMARY KEY,
@@ -159,7 +215,7 @@ VALUES
 ('TG/2023/1820', 'Sprain', '2026-03-10', '2026-03-12', 'Approved');
 
 -- =========================
--- 11. ATTENDANCE
+-- 13. ATTENDANCE
 -- =========================
 CREATE TABLE attendance (
     attendanceID INT AUTO_INCREMENT PRIMARY KEY,
@@ -179,26 +235,32 @@ VALUES
 ('TG/2023/1820', 'ICT1122', 'Theory', '2026-04-02', 'Present');
 
 -- =========================
--- 12. MARKS
+-- 14. MARKS
 -- =========================
 CREATE TABLE marks (
     markID INT AUTO_INCREMENT PRIMARY KEY,
     undergraduateId VARCHAR(50),
     courseCode VARCHAR(20),
+    quiz1 DOUBLE DEFAULT 0,
+    quiz2 DOUBLE DEFAULT 0,
+    quiz3 DOUBLE DEFAULT 0,
+    assignment DOUBLE DEFAULT 0,
+    project DOUBLE DEFAULT 0,
     caMarks DOUBLE,
     midExam DOUBLE,
     endExam DOUBLE,
     finalMarks DOUBLE,
-    grade VARCHAR(5)
+    grade VARCHAR(5),
+    UNIQUE KEY uq_marks_undergrad_course (undergraduateId, courseCode)
 );
 
 INSERT INTO marks VALUES
-(1, 'TG/2023/1753', 'ICT1234', 15, 20, 45, 80, 'A'),
-(2, 'TG/2023/1753', 'ICT1122', 10, 15, 30, 55, 'C'),
-(3, 'TG/2023/1820', 'ICT1234', 18, 22, 50, 90, 'A+');
+(1, 'TG/2023/1753', 'ICT1234', 4, 3, 4, 10, 12, 33, 20, 45, 98, 'A+'),
+(2, 'TG/2023/1753', 'ICT1122', 2, 3, 2, 8, 10, 25, 15, 30, 70, 'B'),
+(3, 'TG/2023/1820', 'ICT1234', 5, 4, 5, 12, 14, 40, 22, 50, 112, 'A+');
 
 -- =========================
--- 13. ATTENDANCE SUMMARY (AUTO GENERATED LOGIC)
+-- 15. ATTENDANCE SUMMARY (AUTO GENERATED LOGIC)
 -- =========================
 CREATE TABLE attendance_summary (
     summaryID INT AUTO_INCREMENT PRIMARY KEY,

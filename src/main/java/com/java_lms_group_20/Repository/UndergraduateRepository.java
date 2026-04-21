@@ -3,6 +3,7 @@ package com.java_lms_group_20.Repository;
 import com.java_lms_group_20.Model.Undergraduate;
 import com.java_lms_group_20.Util.DBConnection;
 import java.sql.*;
+import java.util.Optional;
 
 public class UndergraduateRepository {
 
@@ -134,6 +135,42 @@ public class UndergraduateRepository {
                 conn.rollback();
                 throw e;
             }
+        }
+    }
+
+    public Optional<Undergraduate> findByUserID(int userID) throws SQLException {
+        String sql = "SELECT u.userID, u.firstName, u.lastName, u.contactNo, u.profilePicture, " +
+                "ug.studentID, ug.degreeProgram, ug.level, ug.gpa " +
+                "FROM user u JOIN undergraduate ug ON u.userID = ug.userID WHERE u.userID = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Undergraduate student = new Undergraduate();
+                student.setUserID(rs.getInt("userID"));
+                student.setFirstName(rs.getString("firstName"));
+                student.setLastName(rs.getString("lastName"));
+                student.setContactNo(rs.getString("contactNo"));
+                student.setProfilePicture(rs.getString("profilePicture"));
+                student.setStudentID(rs.getString("studentID"));
+                student.setDegreeProgram(rs.getString("degreeProgram"));
+                student.setLevel(rs.getInt("level"));
+                student.setGpa(rs.getDouble("gpa"));
+                return Optional.of(student);
+            }
+            return Optional.empty();
+        }
+    }
+
+    public boolean updateOwnProfile(int userID, String contactNo, String profilePicture) throws SQLException {
+        String sql = "UPDATE user SET contactNo=?, profilePicture=? WHERE userID=?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, contactNo);
+            stmt.setString(2, profilePicture);
+            stmt.setInt(3, userID);
+            return stmt.executeUpdate() > 0;
         }
     }
 }

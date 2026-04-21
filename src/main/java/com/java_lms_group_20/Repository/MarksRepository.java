@@ -20,6 +20,11 @@ public class MarksRepository {
                 Marks m = new Marks();
                 m.setUndergraduateId(rs.getString("undergraduateId"));
                 m.setCourseCode(rs.getString("courseCode"));
+                m.setQuiz1(rs.getDouble("quiz1"));
+                m.setQuiz2(rs.getDouble("quiz2"));
+                m.setQuiz3(rs.getDouble("quiz3"));
+                m.setAssignment(rs.getDouble("assignment"));
+                m.setProject(rs.getDouble("project"));
                 m.setCaMarks(rs.getDouble("caMarks"));
                 m.setMidExam(rs.getDouble("midExam"));
                 m.setEndExam(rs.getDouble("endExam"));
@@ -31,18 +36,47 @@ public class MarksRepository {
         return list;
     }
 
-    public boolean updateMarks(Marks m) throws SQLException {
-        String sql = "UPDATE marks SET caMarks=?, midExam=?, endExam=?, finalMarks=?, grade=? WHERE undergraduateId=? AND courseCode=?";
+    public boolean saveOrUpdateMarks(Marks m) throws SQLException {
+        String updateSql = "UPDATE marks SET quiz1=?, quiz2=?, quiz3=?, assignment=?, project=?, caMarks=?, midExam=?, endExam=?, finalMarks=?, grade=? " +
+                "WHERE undergraduateId=? AND courseCode=?";
+        String insertSql = "INSERT INTO marks (undergraduateId, courseCode, quiz1, quiz2, quiz3, assignment, project, caMarks, midExam, endExam, finalMarks, grade) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setDouble(1, m.getCaMarks());
-            stmt.setDouble(2, m.getMidExam());
-            stmt.setDouble(3, m.getEndExam());
-            stmt.setDouble(4, m.getFinalMarks());
-            stmt.setString(5, m.getGrade());
-            stmt.setString(6, m.getUndergraduateId());
-            stmt.setString(7, m.getCourseCode());
-            return stmt.executeUpdate() > 0;
+             PreparedStatement stmt = conn.prepareStatement(updateSql)) {
+            stmt.setDouble(1, m.getQuiz1());
+            stmt.setDouble(2, m.getQuiz2());
+            stmt.setDouble(3, m.getQuiz3());
+            stmt.setDouble(4, m.getAssignment());
+            stmt.setDouble(5, m.getProject());
+            stmt.setDouble(6, m.getCaMarks());
+            stmt.setDouble(7, m.getMidExam());
+            stmt.setDouble(8, m.getEndExam());
+            stmt.setDouble(9, m.getFinalMarks());
+            stmt.setString(10, m.getGrade());
+            stmt.setString(11, m.getUndergraduateId());
+            stmt.setString(12, m.getCourseCode());
+
+            int updated = stmt.executeUpdate();
+            if (updated > 0) {
+                return true;
+            }
+
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                insertStmt.setString(1, m.getUndergraduateId());
+                insertStmt.setString(2, m.getCourseCode());
+                insertStmt.setDouble(3, m.getQuiz1());
+                insertStmt.setDouble(4, m.getQuiz2());
+                insertStmt.setDouble(5, m.getQuiz3());
+                insertStmt.setDouble(6, m.getAssignment());
+                insertStmt.setDouble(7, m.getProject());
+                insertStmt.setDouble(8, m.getCaMarks());
+                insertStmt.setDouble(9, m.getMidExam());
+                insertStmt.setDouble(10, m.getEndExam());
+                insertStmt.setDouble(11, m.getFinalMarks());
+                insertStmt.setString(12, m.getGrade());
+                return insertStmt.executeUpdate() > 0;
+            }
         }
     }
 }

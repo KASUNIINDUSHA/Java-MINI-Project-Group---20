@@ -13,6 +13,11 @@ public class MarksService {
     }
 
     public void calculateAndSave(Marks m) throws SQLException {
+        double componentCa = m.getQuiz1() + m.getQuiz2() + m.getQuiz3() + m.getAssignment() + m.getProject();
+        if (componentCa > 0) {
+            m.setCaMarks(componentCa);
+        }
+
         double total = m.getCaMarks() + m.getMidExam() + m.getEndExam();
         m.setFinalMarks(total);
 
@@ -25,6 +30,6 @@ public class MarksService {
         else grade = "F";
 
         m.setGrade(grade);
-        repository.updateMarks(m);
+        repository.saveOrUpdateMarks(m);
     }
 }

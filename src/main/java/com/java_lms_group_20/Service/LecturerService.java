@@ -3,6 +3,7 @@ package com.java_lms_group_20.Service;
 import com.java_lms_group_20.Model.Lecturer;
 import com.java_lms_group_20.Repository.LecturerRepository;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class LecturerService {
 
@@ -30,5 +31,13 @@ public class LecturerService {
     // DELETE
     public boolean deleteLecturer(String lecturerID) throws SQLException {
         return repository.delete(lecturerID);
+    }
+
+    public Optional<Lecturer> getByUserID(int userID) throws SQLException {
+        return repository.findByUserID(userID);
+    }
+
+    public boolean updateOwnProfile(Lecturer lecturer) throws SQLException {
+        return repository.updateOwnProfile(lecturer);
     }
 }

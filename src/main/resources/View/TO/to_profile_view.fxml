@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="14" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.java_lms_group_20.Controller.TO.TOProfileController">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+    <Label text="My Profile" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints><ColumnConstraints percentWidth="50"/><ColumnConstraints percentWidth="50"/></columnConstraints>
+        <TextField fx:id="txtFirstName" promptText="First Name" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="txtLastName" promptText="Last Name" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <TextField fx:id="txtEmail" promptText="Email" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="txtContact" promptText="Contact No" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <TextField fx:id="txtDepartment" promptText="Department" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="txtSkills" promptText="Technical Skills" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    </GridPane>
+    <HBox spacing="10">
+        <Button text="Save Profile" onAction="#handleSave" style="-fx-background-color: #10b981; -fx-text-fill: white;"/>
+        <Label fx:id="lblStatus"/>
+    </HBox>
+</VBox>

@@ -11,6 +11,7 @@ module com.example.java_lms_group_20 {
     opens com.java_lms_group_20.Controller to javafx.fxml;
     opens com.java_lms_group_20.Controller.Student to javafx.fxml;
     opens com.java_lms_group_20.Controller.Admin to javafx.fxml;
+    opens com.java_lms_group_20.Controller.TO to javafx.fxml;
     opens com.java_lms_group_20 to javafx.fxml;
     opens View.Lecturer to javafx.fxml;
 
@@ -23,5 +24,6 @@ module com.example.java_lms_group_20 {
     exports com.java_lms_group_20.Controller;
     exports com.java_lms_group_20.Controller.Student;
     exports com.java_lms_group_20.Controller.Admin;
+    exports com.java_lms_group_20.Controller.TO;
     exports com.java_lms_group_20.Model;
 }

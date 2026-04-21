@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="16" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.java_lms_group_20.Controller.Lecturer.LecturerEligibilityController"
+      style="-fx-background-color: white; -fx-background-radius: 15;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Undergraduate Eligibility" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+
+    <HBox spacing="10">
+        <TextField fx:id="txtSearchStudentId" promptText="Search by student ID" prefWidth="260"/>
+        <Button text="Search" onAction="#handleSearch" style="-fx-background-color: #0ea5e9; -fx-text-fill: white;"/>
+        <Label fx:id="lblStatus"/>
+    </HBox>
+
+    <TableView fx:id="eligibilityTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colStudentId" text="Student ID"/>
+            <TableColumn fx:id="colCourseCode" text="Course"/>
+            <TableColumn fx:id="colAttendancePercentage" text="Attendance %"/>
+            <TableColumn fx:id="colEligibility" text="Eligibility"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+</VBox>

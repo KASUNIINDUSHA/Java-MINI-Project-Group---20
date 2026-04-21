@@ -20,7 +20,7 @@ public class StudentDashboardController {
 
     @FXML private Label lblWelcome, lblStudentID;
     @FXML private StackPane contentArea;
-    @FXML private Button btnHome, btnCourses, btnAttendance;
+    @FXML private Button btnProfile, btnHome, btnCourses, btnAttendance, btnNotices, btnTimetable;
 
     private List<Button> sidebarButtons;
     private User currentUser;
@@ -32,7 +32,7 @@ public class StudentDashboardController {
 
     @FXML
     public void initialize() {
-        sidebarButtons = Arrays.asList(btnHome, btnCourses, btnAttendance)
+        sidebarButtons = Arrays.asList(btnProfile, btnHome, btnCourses, btnAttendance, btnNotices, btnTimetable)
                 .stream()
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
@@ -54,7 +54,22 @@ public class StudentDashboardController {
             lblStudentID.setText(studentID != null ? studentID : "ID Not Found");
         });
 
-        showHome();
+        showProfile();
+    }
+
+    @FXML
+    public void showProfile() {
+        if (currentUser == null) return;
+        setActiveButton(btnProfile);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Student/student_profile_view.fxml"));
+            Parent view = loader.load();
+            StudentProfileController controller = loader.getController();
+            controller.initUser(currentUser);
+            contentArea.getChildren().setAll(view);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -106,6 +121,30 @@ public class StudentDashboardController {
                 controller.loadAttendance(studentID);
             }
 
+            contentArea.getChildren().setAll(view);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void showNotices() {
+        setActiveButton(btnNotices);
+        switchView("/View/Student/student_notices_view.fxml");
+    }
+
+    @FXML
+    public void showTimetable() {
+        if (currentUser == null) return;
+        setActiveButton(btnTimetable);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Student/student_timetable_view.fxml"));
+            Parent view = loader.load();
+            StudentTimetableController controller = loader.getController();
+            String studentID = undergradRepo.getStudentIDByUserID(currentUser.getUserID());
+            if (studentID != null) {
+                controller.loadByStudentId(studentID);
+            }
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
             e.printStackTrace();

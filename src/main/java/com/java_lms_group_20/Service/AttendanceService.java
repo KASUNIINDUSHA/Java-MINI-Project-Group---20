@@ -41,4 +41,8 @@ public class AttendanceService {
     public boolean changeAttendanceStatus(int attendanceID, String status) throws SQLException {
         return repository.updateStatus(attendanceID, status);
     }
+
+    public boolean addAttendance(Attendance attendance) throws SQLException {
+        return repository.save(attendance);
+    }
 }

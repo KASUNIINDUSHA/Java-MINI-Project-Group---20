@@ -39,6 +39,19 @@ public class MedicalRepository {
         }
     }
 
+    public boolean save(Medical medical) throws SQLException {
+        String sql = "INSERT INTO medical (undergraduateId, description, validFrom, validTo, status) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, medical.getUndergraduateId());
+            stmt.setString(2, medical.getDescription());
+            stmt.setDate(3, medical.getValidFrom());
+            stmt.setDate(4, medical.getValidTo());
+            stmt.setString(5, medical.getStatus());
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
     private Medical mapResultSetToMedical(ResultSet rs) throws SQLException {
         Medical m = new Medical();
         m.setUndergraduateId(rs.getString("undergraduateId"));
