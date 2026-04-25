@@ -11,6 +11,7 @@ public class AdminRepository {
     // 1. Fetch all Lecturers
     public List<Lecturer> getAllLecturers() {
         List<Lecturer> list = new ArrayList<>();
+
         String query = "SELECT u.firstName, u.lastName, u.email, u.username, " +
                 "l.lecturerID, l.department, l.qualifications, l.specialization " +
                 "FROM user u JOIN lecturer l ON u.userID = l.userID";

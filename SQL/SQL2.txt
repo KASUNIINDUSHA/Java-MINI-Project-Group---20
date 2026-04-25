@@ -1,0 +1,436 @@
+DROP TABLE IF EXISTS attendance_summary;
+DROP TABLE IF EXISTS marks;
+DROP TABLE IF EXISTS attendance;
+DROP TABLE IF EXISTS medical;
+DROP TABLE IF EXISTS course_material;
+DROP TABLE IF EXISTS timetable;
+DROP TABLE IF EXISTS notice;
+DROP TABLE IF EXISTS undergraduate;
+DROP TABLE IF EXISTS technical_officer;
+DROP TABLE IF EXISTS lecturer;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS course;
+
+CREATE TABLE user (
+    userID INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    firstName VARCHAR(50),
+    lastName VARCHAR(50),
+    email VARCHAR(100),
+    contactNo VARCHAR(20),
+    profilePicture VARCHAR(255)
+);
+
+CREATE TABLE role (
+    roleID INT PRIMARY KEY,
+    roleName VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE user_roles (
+    userID INT,
+    roleID INT,
+    PRIMARY KEY (userID, roleID),
+    FOREIGN KEY (userID) REFERENCES user(userID) ON DELETE CASCADE,
+    FOREIGN KEY (roleID) REFERENCES role(roleID) ON DELETE CASCADE
+);
+
+CREATE TABLE lecturer (
+    userID INT PRIMARY KEY,
+    lecturerID VARCHAR(20) UNIQUE NOT NULL,
+    department VARCHAR(100),
+    qualifications VARCHAR(255),
+    specialization VARCHAR(100),
+    FOREIGN KEY (userID) REFERENCES user(userID) ON DELETE CASCADE
+);
+
+CREATE TABLE technical_officer (
+    userID INT PRIMARY KEY,
+    techOfficerID VARCHAR(20) UNIQUE NOT NULL,
+    department VARCHAR(100),
+    technicalSkills VARCHAR(255),
+    assignedLab VARCHAR(100),
+    FOREIGN KEY (userID) REFERENCES user(userID) ON DELETE CASCADE
+);
+
+CREATE TABLE undergraduate (
+    userID INT PRIMARY KEY,
+    studentID VARCHAR(50) UNIQUE NOT NULL,
+    degreeProgram VARCHAR(100),
+    level INT,
+    gpa DECIMAL(3,2),
+    FOREIGN KEY (userID) REFERENCES user(userID) ON DELETE CASCADE
+);
+
+CREATE TABLE course (
+    courseID INT AUTO_INCREMENT PRIMARY KEY,
+    courseCode VARCHAR(20) UNIQUE NOT NULL,
+    courseName VARCHAR(100) NOT NULL,
+    credits INT NOT NULL
+);
+
+CREATE TABLE notice (
+    noticeID INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    message TEXT NOT NULL,
+    postedBy VARCHAR(100),
+    postedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE timetable (
+    timetableID INT AUTO_INCREMENT PRIMARY KEY,
+    department VARCHAR(100) NOT NULL,
+    level INT NOT NULL,
+    dayOfWeek VARCHAR(20) NOT NULL,
+    startTime TIME NOT NULL,
+    endTime TIME NOT NULL,
+    courseCode VARCHAR(20) NOT NULL,
+    venue VARCHAR(100),
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE course_material (
+    materialID INT AUTO_INCREMENT PRIMARY KEY,
+    courseCode VARCHAR(20) NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT,
+    resourceLink VARCHAR(255),
+    uploadedBy VARCHAR(100),
+    uploadedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE medical (
+    medicalID INT AUTO_INCREMENT PRIMARY KEY,
+    undergraduateId VARCHAR(50),
+    description TEXT,
+    validFrom DATE,
+    validTo DATE,
+    status ENUM('Pending', 'Approved', 'Rejected'),
+    submittedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE attendance (
+    attendanceID INT AUTO_INCREMENT PRIMARY KEY,
+    undergraduateId VARCHAR(50),
+    courseCode VARCHAR(20),
+    sessionType VARCHAR(20),
+    sessionDate DATE,
+    status VARCHAR(20),
+    markedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE marks (
+    markID INT AUTO_INCREMENT PRIMARY KEY,
+    undergraduateId VARCHAR(50),
+    courseCode VARCHAR(20),
+    quiz1 DOUBLE DEFAULT 0,
+    quiz2 DOUBLE DEFAULT 0,
+    quiz3 DOUBLE DEFAULT 0,
+    assignment DOUBLE DEFAULT 0,
+    project DOUBLE DEFAULT 0,
+    caMarks DOUBLE,
+    midExam DOUBLE,
+    endExam DOUBLE,
+    finalMarks DOUBLE,
+    grade VARCHAR(5),
+    UNIQUE KEY uq_marks_undergrad_course (undergraduateId, courseCode)
+);
+
+CREATE TABLE attendance_summary (
+    summaryID INT AUTO_INCREMENT PRIMARY KEY,
+    undergraduateId VARCHAR(50),
+    courseCode VARCHAR(20),
+    totalSessions INT,
+    presentCount INT,
+    absentCount INT,
+    lateCount INT,
+    attendancePercentage DECIMAL(5,2),
+    lastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO role VALUES
+(1, 'ADMIN'),
+(2, 'LECTURER'),
+(3, 'UNDERGRADUATE'),
+(4, 'TO');
+
+INSERT INTO user (username, password, firstName, lastName, email, contactNo) VALUES
+('admin', 'admin123', 'System', 'Admin', 'admin@uov.ac.lk', '0700000000'),
+('lec01', 'pass123', 'Anura', 'Fernando', 'lec01@uov.ac.lk', '0710000001'),
+('lec02', 'pass123', 'Bandula', 'Wickrama', 'lec02@uov.ac.lk', '0710000002'),
+('lec03', 'pass123', 'Chamari', 'Jayasinghe', 'lec03@uov.ac.lk', '0710000003'),
+('lec04', 'pass123', 'Dilshan', 'Ratnayake', 'lec04@uov.ac.lk', '0710000004'),
+('lec05', 'pass123', 'Eranga', 'Kumara', 'lec05@uov.ac.lk', '0710000005'),
+('lec06', 'pass123', 'Fathima', 'Rizvi', 'lec06@uov.ac.lk', '0710000006'),
+('lec07', 'pass123', 'Gayan', 'Senanayake', 'lec07@uov.ac.lk', '0710000007'),
+('lec08', 'pass123', 'Hiruni', 'Mendis', 'lec08@uov.ac.lk', '0710000008'),
+('lec09', 'pass123', 'Ishan', 'De Silva', 'lec09@uov.ac.lk', '0710000009'),
+('lec10', 'pass123', 'Janani', 'Peiris', 'lec10@uov.ac.lk', '0710000010'),
+('to_user', 'pass123', 'Tech', 'Officer', 'to@uov.ac.lk', '0788888888'),
+('stu1753', 'pass123', 'Harshana', 'Prabhath', 'harshana@uov.ac.lk', '0711111111'),
+('stu1754', 'pass123', 'Nimal', 'Perera', 'nimal@uov.ac.lk', '0711111112'),
+('stu1755', 'pass123', 'Saman', 'Silva', 'saman@uov.ac.lk', '0711111113'),
+('stu1756', 'pass123', 'Kasun', 'Weerasinghe', 'kasun@uov.ac.lk', '0711111114'),
+('stu1757', 'pass123', 'Nuwan', 'Dias', 'nuwan@uov.ac.lk', '0711111115'),
+('stu1758', 'pass123', 'Tharindu', 'Gunasekara', 'tharindu@uov.ac.lk', '0711111116'),
+('stu1759', 'pass123', 'Malith', 'Ekanayake', 'malith@uov.ac.lk', '0711111117'),
+('stu1760', 'pass123', 'Ravindu', 'Karunaratne', 'ravindu@uov.ac.lk', '0711111118'),
+('stu1761', 'pass123', 'Dinesh', 'Liyanage', 'dinesh@uov.ac.lk', '0711111119'),
+('stu1762', 'pass123', 'Pradeep', 'Wijesooriya', 'pradeep@uov.ac.lk', '0711111120'),
+('stu1763', 'pass123', 'Chathura', 'Ranasinghe', 'chathura@uov.ac.lk', '0711111121'),
+('stu1764', 'pass123', 'Isuru', 'Bandara', 'isuru@uov.ac.lk', '0711111122'),
+('stu1765', 'pass123', 'Lakshan', 'Amarasinghe', 'lakshan@uov.ac.lk', '0711111123'),
+('stu1766', 'pass123', 'Sachini', 'Wijewardene', 'sachini@uov.ac.lk', '0711111124'),
+('stu1767', 'pass123', 'Imashi', 'Herath', 'imashi@uov.ac.lk', '0711111125'),
+('stu1768', 'pass123', 'Dulanji', 'Navodya', 'dulanji@uov.ac.lk', '0711111126'),
+('stu1769', 'pass123', 'Pavithra', 'Rajapakse', 'pavithra@uov.ac.lk', '0711111127'),
+('stu1770', 'pass123', 'Ruchira', 'Madushanka', 'ruchira@uov.ac.lk', '0711111128'),
+('stu1771', 'pass123', 'Hasitha', 'Subasinghe', 'hasitha@uov.ac.lk', '0711111129'),
+('stu1772', 'pass123', 'Udara', 'Pathirana', 'udara@uov.ac.lk', '0711111130');
+
+INSERT INTO user_roles VALUES
+(1,1),
+(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),(8,2),(9,2),(10,2),(11,2),
+(12,4),
+(13,3),(14,3),(15,3),(16,3),(17,3),(18,3),(19,3),(20,3),(21,3),(22,3),(23,3),(24,3),(25,3),(26,3),(27,3),(28,3),(29,3),(30,3),(31,3),(32,3);
+
+INSERT INTO lecturer VALUES
+(2,'LC2001','IT','PhD CS','Algorithms'),
+(3,'LC2002','IT','MSc SE','Software Engineering'),
+(4,'LC2003','IT','PhD Networking','Networks'),
+(5,'LC2004','IT','MSc DS','Data Science'),
+(6,'LC2005','IT','PhD Math','Mathematics'),
+(7,'LC2006','IT','MSc IT','Information Systems'),
+(8,'LC2007','IT','PhD HCI','Human Computer Interaction'),
+(9,'LC2008','IT','MSc Cyber','Security'),
+(10,'LC2009','IT','PhD Physics','Engineering Physics'),
+(11,'LC2010','IT','MSc English','Communication');
+
+INSERT INTO technical_officer VALUES
+(12,'TO1001','IT','Networking, Hardware','Lab A');
+
+INSERT INTO undergraduate VALUES
+(13,'TG/2023/1753','ICT',2,3.45),
+(14,'TG/2023/1754','ICT',2,3.10),
+(15,'TG/2023/1755','ICT',2,2.95),
+(16,'TG/2023/1756','ICT',2,3.22),
+(17,'TG/2023/1757','ICT',2,2.88),
+(18,'TG/2023/1758','ICT',2,3.05),
+(19,'TG/2023/1759','ICT',2,2.77),
+(20,'TG/2023/1760','ICT',2,3.33),
+(21,'TG/2023/1761','ICT',2,2.90),
+(22,'TG/2023/1762','ICT',2,3.15),
+(23,'TG/2023/1763','ICT',2,2.82),
+(24,'TG/2023/1764','ICT',2,3.08),
+(25,'TG/2023/1765','ICT',2,2.99),
+(26,'TG/2023/1766','ICT',2,3.40),
+(27,'TG/2023/1767','ICT',2,3.12),
+(28,'TG/2023/1768','ICT',2,2.75),
+(29,'TG/2023/1769','ICT',2,3.01),
+(30,'TG/2023/1770','ICT',2,2.93),
+(31,'TG/2023/1771','ICT',2,3.18),
+(32,'TG/2023/1772','ICT',2,2.86);
+
+INSERT INTO course (courseCode, courseName, credits) VALUES
+('ICT2213','Data Structures and Algorithms II',3),
+('ICT2223','Database Design and Implementation',3),
+('ICT2233','Computer Networks II',3),
+('ICT2242','Rapid Application Development',2),
+('ICT2253','Operating Systems',3),
+('ICT2262','Human Computer Interaction',2),
+('TMS2173','Technology Management and Innovation',3),
+('TMS2183','Research Methods for ICT',3);
+
+INSERT INTO notice (title, message, postedBy) VALUES
+('Mid Exam Schedule','Semester 2 mid exams begin on May 10. Check LMS for hall allocations.','Admin Office'),
+('System Maintenance','LMS will be unavailable on Sunday 1:00 AM - 3:00 AM.','System Admin'),
+('Medical Submission','Submit medical records within 3 working days.','Technical Division'),
+('Course Registration','Semester 2 add-drop window closes April 30.','Academic Office');
+
+INSERT INTO timetable (department, level, dayOfWeek, startTime, endTime, courseCode, venue) VALUES
+('ICT',2,'Monday','08:30:00','10:30:00','ICT2213','Lab 1'),
+('ICT',2,'Tuesday','10:30:00','12:30:00','ICT2223','Hall A'),
+('ICT',2,'Wednesday','13:30:00','15:30:00','ICT2233','Hall B'),
+('ICT',2,'Thursday','08:30:00','10:30:00','ICT2242','Lab 2'),
+('ICT',2,'Friday','10:30:00','12:30:00','ICT2253','Hall C'),
+('ICT',2,'Monday','13:30:00','15:30:00','ICT2262','Seminar Room 1'),
+('ICT',2,'Tuesday','13:30:00','15:30:00','TMS2173','Hall D'),
+('ICT',2,'Wednesday','08:30:00','10:30:00','TMS2183','Seminar Room 2');
+
+INSERT INTO course_material (courseCode, title, description, resourceLink, uploadedBy) VALUES
+('ICT2213','Week 1 Slides','Advanced structures','https://lms.example/ict2213/w1','Anura Fernando'),
+('ICT2223','Normalization Tutorial','3NF exercises','https://lms.example/ict2223/tut1','Bandula Wickrama'),
+('ICT2233','Routing Lab','Subnetting','https://lms.example/ict2233/lab1','Chamari Jayasinghe'),
+('ICT2242','RAD Sprint Guide','Prototype checklist','https://lms.example/ict2242/sprint1','Dilshan Ratnayake'),
+('ICT2253','Scheduling Notes','CPU scheduling','https://lms.example/ict2253/os1','Eranga Kumara'),
+('ICT2262','Usability Heuristics','Nielsen summary','https://lms.example/ict2262/hci1','Fathima Rizvi'),
+('TMS2173','Innovation Case Pack','Case studies','https://lms.example/tms2173/cases','Gayan Senanayake'),
+('TMS2183','Literature Review Template','APA brief','https://lms.example/tms2183/lr','Janani Peiris');
+
+INSERT INTO medical (undergraduateId, description, validFrom, validTo, status) VALUES
+('TG/2023/1753','Viral fever with medical certificate','2026-02-10','2026-02-12','Approved'),
+('TG/2023/1753','Dental procedure','2026-03-05','2026-03-06','Pending'),
+('TG/2023/1753','Family emergency (documentation incomplete)','2026-04-01','2026-04-02','Rejected'),
+('TG/2023/1754','Minor injury','2026-03-01','2026-03-02','Approved');
+
+INSERT INTO marks (undergraduateId, courseCode, quiz1, quiz2, quiz3, assignment, project, caMarks, midExam, endExam, finalMarks, grade) VALUES
+('TG/2023/1753','ICT2213',5,5,5,10,15,40,22,35,92,'A'),
+('TG/2023/1753','ICT2223',4,5,4,9,14,36,20,32,84,'A'),
+('TG/2023/1753','ICT2233',5,4,5,10,13,37,21,33,85,'A'),
+('TG/2023/1753','ICT2242',4,4,4,8,12,32,18,30,78,'B+'),
+('TG/2023/1753','ICT2253',3,3,3,7,10,26,16,25,68,'B'),
+('TG/2023/1753','ICT2262',4,3,4,8,11,30,17,28,72,'B+'),
+('TG/2023/1753','TMS2173',5,5,4,9,12,35,19,31,80,'A'),
+('TG/2023/1753','TMS2183',4,4,4,8,10,30,18,26,72,'B+');
+
+INSERT INTO attendance (undergraduateId, courseCode, sessionType, sessionDate, status) VALUES
+('TG/2023/1753','ICT2213','Theory','2026-01-06','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-01-13','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-01-20','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-01-27','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-02-03','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-02-10','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-02-17','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-02-24','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-03-03','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-03-10','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-03-17','Present'),
+('TG/2023/1753','ICT2213','Theory','2026-03-24','Present'),
+('TG/2023/1753','ICT2213','Practical','2026-01-08','Absent'),
+('TG/2023/1753','ICT2213','Practical','2026-01-15','Absent'),
+('TG/2023/1753','ICT2213','Practical','2026-01-22','Late'),
+
+('TG/2023/1753','ICT2223','Theory','2026-01-07','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-01-14','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-01-21','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-01-28','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-02-04','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-02-11','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-02-18','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-02-25','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-03-04','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-03-11','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-03-18','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-03-25','Present'),
+('TG/2023/1753','ICT2223','Theory','2026-04-01','Present'),
+('TG/2023/1753','ICT2223','Practical','2026-01-09','Absent'),
+('TG/2023/1753','ICT2223','Practical','2026-01-16','Late'),
+('TG/2023/1753','ICT2223','Practical','2026-01-23','Present'),
+
+('TG/2023/1753','ICT2233','Theory','2026-01-08','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-01-15','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-01-22','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-01-29','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-02-05','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-02-12','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-02-19','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-02-26','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-03-05','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-03-12','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-03-19','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-03-26','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-04-02','Present'),
+('TG/2023/1753','ICT2233','Theory','2026-04-09','Present'),
+('TG/2023/1753','ICT2233','Practical','2026-01-10','Present'),
+('TG/2023/1753','ICT2233','Practical','2026-01-17','Absent'),
+
+('TG/2023/1753','ICT2242','Theory','2026-01-09','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-01-16','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-01-23','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-01-30','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-02-06','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-02-13','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-02-20','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-02-27','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-03-06','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-03-13','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-03-20','Present'),
+('TG/2023/1753','ICT2242','Theory','2026-03-27','Present'),
+('TG/2023/1753','ICT2242','Practical','2026-01-11','Present'),
+('TG/2023/1753','ICT2242','Practical','2026-01-18','Absent'),
+('TG/2023/1753','ICT2242','Practical','2026-01-25','Absent'),
+('TG/2023/1753','ICT2242','Practical','2026-02-01','Late'),
+
+('TG/2023/1753','ICT2253','Theory','2026-01-10','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-01-17','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-01-24','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-01-31','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-02-07','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-02-14','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-02-21','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-02-28','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-03-07','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-03-14','Present'),
+('TG/2023/1753','ICT2253','Theory','2026-03-21','Present'),
+('TG/2023/1753','ICT2253','Practical','2026-01-12','Absent'),
+('TG/2023/1753','ICT2253','Practical','2026-01-19','Absent'),
+('TG/2023/1753','ICT2253','Practical','2026-01-26','Absent'),
+('TG/2023/1753','ICT2253','Practical','2026-02-02','Late'),
+('TG/2023/1753','ICT2253','Practical','2026-02-09','Absent'),
+
+('TG/2023/1753','ICT2262','Theory','2026-01-11','Present'),
+('TG/2023/1753','ICT2262','Theory','2026-01-18','Present'),
+('TG/2023/1753','ICT2262','Theory','2026-01-25','Present'),
+('TG/2023/1753','ICT2262','Theory','2026-02-01','Present'),
+('TG/2023/1753','ICT2262','Theory','2026-02-08','Present'),
+('TG/2023/1753','ICT2262','Theory','2026-02-15','Present'),
+('TG/2023/1753','ICT2262','Theory','2026-02-22','Present'),
+('TG/2023/1753','ICT2262','Theory','2026-03-01','Present'),
+('TG/2023/1753','ICT2262','Theory','2026-03-08','Present'),
+('TG/2023/1753','ICT2262','Theory','2026-03-15','Present'),
+('TG/2023/1753','ICT2262','Practical','2026-01-13','Absent'),
+('TG/2023/1753','ICT2262','Practical','2026-01-20','Absent'),
+('TG/2023/1753','ICT2262','Practical','2026-01-27','Absent'),
+('TG/2023/1753','ICT2262','Practical','2026-02-03','Absent'),
+('TG/2023/1753','ICT2262','Practical','2026-02-10','Late'),
+
+('TG/2023/1753','TMS2173','Theory','2026-01-12','Present'),
+('TG/2023/1753','TMS2173','Theory','2026-01-19','Present'),
+('TG/2023/1753','TMS2173','Theory','2026-01-26','Present'),
+('TG/2023/1753','TMS2173','Theory','2026-02-02','Present'),
+('TG/2023/1753','TMS2173','Theory','2026-02-09','Present'),
+('TG/2023/1753','TMS2173','Theory','2026-02-16','Present'),
+('TG/2023/1753','TMS2173','Theory','2026-02-23','Present'),
+('TG/2023/1753','TMS2173','Theory','2026-03-02','Present'),
+('TG/2023/1753','TMS2173','Theory','2026-03-09','Absent'),
+('TG/2023/1753','TMS2173','Practical','2026-01-14','Absent'),
+('TG/2023/1753','TMS2173','Practical','2026-01-21','Late'),
+('TG/2023/1753','TMS2173','Practical','2026-01-28','Absent'),
+('TG/2023/1753','TMS2173','Practical','2026-02-04','Late'),
+('TG/2023/1753','TMS2173','Practical','2026-02-11','Absent'),
+('TG/2023/1753','TMS2173','Practical','2026-02-18','Absent'),
+
+('TG/2023/1753','TMS2183','Theory','2026-01-13','Present'),
+('TG/2023/1753','TMS2183','Theory','2026-01-20','Absent'),
+('TG/2023/1753','TMS2183','Theory','2026-01-27','Present'),
+('TG/2023/1753','TMS2183','Theory','2026-02-03','Absent'),
+('TG/2023/1753','TMS2183','Theory','2026-02-10','Present'),
+('TG/2023/1753','TMS2183','Theory','2026-02-17','Absent'),
+('TG/2023/1753','TMS2183','Theory','2026-02-24','Present'),
+('TG/2023/1753','TMS2183','Theory','2026-03-03','Absent'),
+('TG/2023/1753','TMS2183','Practical','2026-01-15','Absent'),
+('TG/2023/1753','TMS2183','Practical','2026-01-22','Late'),
+('TG/2023/1753','TMS2183','Practical','2026-01-29','Absent'),
+('TG/2023/1753','TMS2183','Practical','2026-02-05','Present'),
+('TG/2023/1753','TMS2183','Practical','2026-02-12','Absent'),
+('TG/2023/1753','TMS2183','Practical','2026-02-19','Late'),
+('TG/2023/1753','TMS2183','Practical','2026-02-26','Absent'),
+
+('TG/2023/1754','ICT2213','Theory','2026-01-06','Present'),
+('TG/2023/1754','ICT2213','Theory','2026-01-13','Absent'),
+('TG/2023/1755','ICT2213','Theory','2026-01-06','Present'),
+('TG/2023/1755','ICT2223','Theory','2026-01-07','Late');
+
+INSERT INTO attendance_summary (undergraduateId, courseCode, totalSessions, presentCount, absentCount, lateCount, attendancePercentage)
+SELECT
+    undergraduateId,
+    courseCode,
+    COUNT(*) AS totalSessions,
+    SUM(CASE WHEN status = 'Present' THEN 1 ELSE 0 END) AS presentCount,
+    SUM(CASE WHEN status = 'Absent'  THEN 1 ELSE 0 END) AS absentCount,
+    SUM(CASE WHEN status = 'Late'    THEN 1 ELSE 0 END) AS lateCount,
+    ROUND((SUM(CASE WHEN status = 'Present' THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) AS attendancePercentage
+FROM attendance
+GROUP BY undergraduateId, courseCode;

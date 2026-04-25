@@ -285,3 +285,7 @@ SELECT
     (SUM(CASE WHEN status='Present' THEN 1 ELSE 0 END)/COUNT(*))*100
 FROM attendance
 GROUP BY undergraduateId, courseCode;
+
+
+
+
